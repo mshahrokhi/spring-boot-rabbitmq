@@ -1,6 +1,6 @@
 package com.shahrokhi.springbootrabbitmq.producer;
 
-import com.shahrokhi.springbootrabbitmq.model.SendSmsRequest;
+import com.shahrokhi.springbootrabbitmq.model.MessageRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SendSmsProducer {
+public class MessageProducer {
 
-    private final Logger logger = LogManager.getLogger(SendSmsProducer.class);
+    private final Logger logger = LogManager.getLogger(MessageProducer.class);
 
     @Value("${rabbitmq.exchange.name}")
     private String exchangeName;
@@ -19,15 +19,23 @@ public class SendSmsProducer {
     @Value("${rabbitmq.queue.routing-key.send-sms}")
     private String sendSmsRoutingKey;
 
+    @Value("${rabbitmq.queue.routing-key.send-email}")
+    private String sendEmailRoutingKey;
+
     private RabbitTemplate rabbitTemplate;
 
     @Autowired
-    public SendSmsProducer(RabbitTemplate rabbitTemplate) {
+    public MessageProducer(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    public void sendSms(SendSmsRequest request) {
-        logger.info(String.format("Message sent -> %s", request));
+    public void sendSms(MessageRequest request) {
+        logger.info(String.format("Producer SMS sent -> %s", request));
         rabbitTemplate.convertAndSend(exchangeName, sendSmsRoutingKey, request);
+    }
+
+    public void sendEmail(MessageRequest request) {
+        logger.info(String.format("Producer email sent -> %s", request));
+        rabbitTemplate.convertAndSend(exchangeName, sendEmailRoutingKey, request);
     }
 }
