@@ -11,7 +11,6 @@ public class SendSmsConsumer {
 
     private final Logger logger = LogManager.getLogger(SendSmsConsumer.class);
 
-
     @RabbitListener(queues = "${rabbitmq.queue.name.send-sms}")
     public void sendSmsConsumer(MessageRequest request) {
         logger.info(String.format("Consumer SMS received -> %s", request));

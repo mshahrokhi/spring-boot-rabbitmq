@@ -69,5 +69,4 @@ public class RabbitMQConfig {
                 .to(exchange())
                 .with(sendEmailRoutingKey);
     }
-
 }

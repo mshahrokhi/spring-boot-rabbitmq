@@ -34,5 +34,4 @@ public class MessageController {
         response.setSuccess();
         return response;
     }
-
 }
