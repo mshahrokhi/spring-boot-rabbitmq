@@ -29,11 +29,13 @@ public class MessageProducerImp implements MessageProducer {
         this.rabbitTemplate = rabbitTemplate;
     }
 
+    @Override
     public void sendSms(MessageRequest request) {
         logger.info(String.format("Producer SMS sent -> %s", request));
         rabbitTemplate.convertAndSend(exchangeName, sendSmsRoutingKey, request);
     }
 
+    @Override
     public void sendEmail(MessageRequest request) {
         logger.info(String.format("Producer email sent -> %s", request));
         rabbitTemplate.convertAndSend(exchangeName, sendEmailRoutingKey, request);
